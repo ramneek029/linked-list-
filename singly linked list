@@ -1,0 +1,170 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+class node
+
+{
+public:
+    int info;
+    node * link;
+    friend void traverse();
+    friend void unsortsearch(int n);
+    friend void insertbeg(int n);
+    friend void insertend(int n);
+    friend void insrtafter(int n,node* loc);
+    friend void del(int n);
+
+};
+node *n1,*n2,*n3;
+node * start;
+void traverse()
+{
+    struct node *ptr;
+    ptr=start;
+    while(ptr!=NULL)
+    {
+        cout<<ptr->info<<"\t";
+        ptr=ptr->link;
+
+    }
+    cout<<"\n";
+}
+void unsortsearch(int n)
+{
+    node * ptr;
+    node* LOC;
+    ptr = start;
+    int i=1;
+    while(ptr!=NULL)
+    {
+        if (n == ptr->info)
+        {
+            LOC=ptr;
+            cout<<"found at node = "<<i<<endl;
+            break;
+        }
+        else
+        {
+            ptr=ptr->link;
+            i++;
+        }
+
+    }
+    LOC=NULL;
+}
+void insertbeg()
+{
+    int n;
+    cout<<"enter the data you want to enter";
+    cin>>n;
+    node * newnode;
+    newnode = new node();
+    newnode->info = n;
+    newnode->link=start;
+    start=newnode;
+
+}
+void insrtafter(int n,node *loc)
+{
+    node *newnode=new node();
+    newnode->info=n;
+    if(start==NULL)  // LIST IS EMPTY
+    {
+        newnode->link=NULL;
+        start=newnode;
+    }
+
+    else if(loc->link == NULL) // INSERT AT END
+    {
+        newnode->link=NULL;
+        loc->link=newnode;
+    }
+
+    else
+    {
+        newnode->link=loc->link;
+        newnode->info=n;
+        loc->link=newnode;
+    }
+}
+
+void del(int n)
+{
+    node * ptr,*save;
+    save=NULL;
+    ptr=start;
+
+    while(ptr!=NULL)
+    {
+        if(ptr->info==n)
+        {
+            save->link = ptr->link;
+            break;
+
+        }
+        else
+        {
+            save=ptr;
+            ptr=ptr->link;
+        }
+    }
+}
+
+int main()
+
+{
+    node *n1,*n2,*n3;
+    n1 = new node();
+    n2 = new node();
+    n3 = new node();
+    start = n1;
+    n1->info=20;
+    n1->link=n2;
+    n2->info=23;
+    n2->link=n3;
+    n3->info=30;
+    n3->link=NULL;
+    traverse();
+    int choice;
+    while(1)
+    {
+        cout<<"(a) Enter 1 to insert node at beginning\n(b) Enter 2 to add node after a given location\n(c)Enter 3 to search item\n(d) Enter 4 to delete any node\n(e) Enter 0 to exit";
+        cin>>choice;
+        switch(choice)
+        {
+        case 1:
+            insertbeg();
+            traverse();
+            break;
+        case 2:
+            insrtafter(11,n3);
+            traverse();
+            break;
+        case 3:
+            int data;
+            cout<<"what do you want to search";
+            cin>>data;
+            unsortsearch(data);
+            break;
+        case 4:
+            int value;
+            cout<<"enter value:";
+            cin>>value;
+            del(value);
+            traverse();
+            break;
+        case 0:
+            exit(0);
+
+
+        }
+
+
+
+
+
+    }
+
+
+
+}
