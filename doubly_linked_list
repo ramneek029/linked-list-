@@ -1,0 +1,199 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+class node
+{
+public:
+    int data;
+    node *bck;
+    node *next;
+    friend void traverse();
+    friend void backtraverse();
+    friend void srch();
+    friend void backsrch();
+    friend void insrt();
+    friend void del();
+
+};
+node *start, *last;
+void fronttraverse()
+{
+    node * ptr;
+    ptr = start;
+    cout<<"traversing from beginning  :";
+    while(ptr!=NULL)
+    {
+        cout<<ptr->data<<"\t";
+        ptr = ptr->next;
+    }
+}
+void backtraverse()
+{   node * ptr;
+    ptr = last;
+    cout<<"traversing from end  : ";
+    while(ptr != NULL)
+    {   cout<<ptr->data<<"\t";
+        ptr = ptr->bck;
+    }
+}
+void frontscrh()
+{   int n;
+    cout<<"\nSEARCH FROM START , enter number you want to seacrh : ";
+    cin>>n;
+    node * ptr;
+    ptr = start;
+    int i=1;
+    int d;
+    while(ptr!=NULL)
+    {
+        if(ptr->data == n)
+        {
+            cout<<"\nfound at node "<<i<<endl;
+            d++;
+            break;
+        }
+        else
+        {   ptr = ptr->next;
+            i++;
+        }
+    }
+    if(d== 0)
+        cout<<"\nnot found"<<endl;
+}
+void backsrch()
+{
+    int n;
+    cout<<"\nSEARCH FROM END , enter number you want to seacrh : ";
+    cin>>n;
+    node * ptr;
+    ptr = last;
+    int i=1;
+    int d;
+    while(ptr!=NULL)
+    {   if(ptr->data == n)
+        {
+            cout<<"\nfound at node "<<i<<" from back"<<endl;
+            d++;
+            break;
+        }
+        else
+        {   ptr = ptr->bck;
+            i++;
+        }
+    }
+    if(d== 0)
+        cout<<"\nnot found"<<endl;
+}
+void insrt()
+{   int n;
+    cout<<"enter data u want to add : ";
+    cin>>n;
+    node * newnode;
+    newnode = new node;
+    node * ptr;
+    ptr = start;
+    while(ptr!= NULL)
+    {   if(start->data>n)
+        {   newnode->data = n;
+            newnode->bck = NULL;
+            newnode->next = start;
+            start->bck = newnode;
+            start = newnode;
+            break;
+        }
+        if(ptr->data >n)
+        {
+            newnode->data = n;
+            newnode->next =ptr;
+            newnode->bck = ptr->bck ;
+            ptr->bck->next = newnode;
+            ptr->bck = newnode;
+            break;
+        }
+        else
+            ptr=ptr->next;
+    }
+    if(ptr == NULL)
+    {
+        newnode->data=n;
+        newnode->bck = last;
+        newnode->next = NULL;
+        last->next = newnode;
+        last = newnode;
+    }
+}
+void del()
+{
+    int n;
+    cout<<"\nenter the value u want to delete : ";
+    cin>>n;
+    node * ptr;
+    ptr=start;
+    while(ptr!=NULL)
+    {
+        if(start->data == n )
+        {
+            start->next->bck =NULL;
+            start = start->next;
+            break;
+        }
+        if(ptr == last && last->data == n)
+        {
+            ptr->bck->next = NULL;
+            last = ptr->bck;
+            break;
+        }
+        if(ptr->data == n)
+        {
+            ptr->bck->next = ptr->next;
+            ptr->next->bck = ptr->bck;
+            break;
+        }
+        else
+            ptr= ptr->next;
+    }
+}
+int main()
+{
+    node *n1,*n2,*n3;
+    n1 = new node;
+    n2 = new node;
+    n3 = new node;
+    start = n1;
+    n1->data = 21;
+    n1->next = n2;
+    n1->bck = NULL;
+    n2->data = 56;
+    n2->next=n3;
+    n2->bck = n1;
+    n3->data = 98;
+    n3->bck = n2;
+    n3->next= NULL;
+    last = n3;
+    int choice;
+    while(1)
+    {
+        cout<<"\nenter choice \n1 to traverse from beg\n2 to traverse from end\n3 to search from beg\n4 to search from end\n5 to insert new node\n6 to delete\n0 to exit\n";
+        cin>>choice;
+        switch(choice)
+        {
+        case 1:fronttraverse();
+            break;
+        case 2 : cout<<endl;
+            backtraverse();
+            break;
+        case 3:frontscrh();
+            break;
+        case 4:backsrch();
+            break;
+        case 5:insrt();
+            fronttraverse();
+            break;
+        case 6:del();
+            fronttraverse();
+            break;
+        case 0: exit(0);
+        }
+    }
+}
+
