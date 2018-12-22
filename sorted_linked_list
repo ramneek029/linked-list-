@@ -1,0 +1,115 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+class node
+{
+public:
+    int info;
+    node * link;
+    friend void traverse();
+    friend void sortsearch(int n);
+    friend void insrtsort(int n);
+    friend void del(int n);
+};
+node *n1,*n2,*n3;
+node * start;
+void traverse()
+{  node *ptr;
+    ptr=start;
+    while(ptr!=NULL)
+    {
+        cout<<ptr->info<<"\t";
+        ptr=ptr->link;
+    }
+    cout<<"\n";
+}
+void sortsearch(int n)
+{   node * ptr;
+    node* LOC=NULL;
+    ptr = start;
+    int i=1;
+    while(ptr!=NULL)
+    {  if(n == ptr->info)
+        {
+            LOC=ptr;
+            cout<<"found at node = "<<i<<endl;
+            break;
+        }
+        else
+        {
+            ptr=ptr->link;
+            i++;
+        }
+    }
+    if(LOC==NULL)
+        cout<<"not found"<<endl;
+}
+void insrtsort(int n)
+{
+    node* newnode;
+    newnode=new node;
+    node *ptr,*save;
+    save=NULL;
+    ptr = start;
+    while(ptr!=NULL)
+    {   if(n<start->info)
+        {  newnode->info = n;
+            newnode->link = start;
+            start = newnode;
+            break;
+        }
+        if(ptr->info < n)
+        {   save=ptr;
+            ptr=ptr->link;
+        }
+        else
+        {   newnode->info=n;
+            newnode->link=ptr;
+            save->link=newnode;
+            break;
+        }
+    }
+    if(ptr==NULL)
+    {   newnode->info = n;
+        newnode->link = NULL;
+        save->link = newnode;
+    }
+}
+int main()
+{   n1 = new node();
+    n2 = new node();
+    n3 = new node();
+    start = n1;
+    n1->info=20;
+    n1->link=n2;
+    n2->info=30;
+    n2->link=n3;
+    n3->info=50;
+    n3->link=NULL;
+    traverse();
+    int choice;
+    while(1)
+    {
+        cout<<"Enter 1 to search \nEnter 2 to insert\nEnter 0 to exit:-";
+        cin>>choice;
+        switch(choice)
+        {
+        case 1:
+            int n;
+            cout<<"\nenter value:-";
+            cin>>n;
+            sortsearch(n);
+            break;
+        case 2:
+
+            cout<<"\nenter value:-";
+            cin>>n;
+            insrtsort(n);
+            traverse();
+            break;
+        case 0:
+            exit(0);
+
+        }
+    }
+}
